@@ -1,0 +1,7 @@
+---
+- name: Some basic ansible task
+  hosts: private-app
+  gather_facts: yes
+  become: true
+  roles:
+    - { role: sshd, tags: role-sshd }

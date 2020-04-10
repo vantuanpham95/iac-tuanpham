@@ -1,0 +1,15 @@
+---
+- name: apt - Upgrade all packages
+  apt:
+    state: latest
+    upgrade: dist
+    update_cache: yes
+  register: server_update_apt_install_all_results
+  when: ansible_os_family == "Debian"
+
+- name: debug server_update_apt_install_all_results
+  debug: var=server_update_apt_install_all_results.stdout_lines
+  when: ansible_os_family == "Debian"
+
+- name: Reboot if necessary
+  meta: flush_handlers

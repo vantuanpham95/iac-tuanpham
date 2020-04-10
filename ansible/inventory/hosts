@@ -1,0 +1,3 @@
+[private-app]
+app-01 ansible_ssh_host=10.10.1.9
+app-02 ansible_ssh_host=10.10.1.8

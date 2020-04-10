@@ -1,0 +1,15 @@
+---
+
+
+Protocol: '2'
+LogLevel: 'INFO'
+X11Forwarding: 'no'
+MaxAuthTries: '4'
+IgnoreRhosts: 'yes'
+HostbasedAuthentication: 'no'
+PermitRootLogin: 'no'
+PermitEmptyPasswords: 'no'
+PasswordAuthentication: 'no'
+PermitUserEnvironment: 'no'
+ClientAliveInterval: '300'
+ClientAliveCountMax: '0'

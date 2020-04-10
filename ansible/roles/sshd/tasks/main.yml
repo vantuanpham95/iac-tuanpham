@@ -1,0 +1,174 @@
+---
+
+
+- name: sshd | Set SSH Protocol to 2
+  lineinfile: >
+    dest=/etc/ssh/sshd_config
+    regexp="^Protocol " line="Protocol {{ Protocol }}"
+  notify: restart ssh
+  tags:
+    - sshd
+
+- name: sshd | Set LogLevel to INFO
+  lineinfile: >
+    dest=/etc/ssh/sshd_config
+    regexp="^LogLevel "
+    line="LogLevel {{ LogLevel }}"
+  notify: restart ssh
+  tags:
+    - sshd
+
+
+- name: sshd | Set Permissions on /etc/ssh/sshd_config
+  file: >
+    path=/etc/ssh/sshd_config
+    owner=root
+    group=root
+    mode=0600
+  notify: restart ssh
+  tags:
+    - sshd
+
+
+- name: sshd | Disable SSH X11 Forwarding
+  lineinfile: >
+    dest=/etc/ssh/sshd_config
+    regexp="^X11Forwarding "
+    line="X11Forwarding {{ X11Forwarding }}"
+  notify: restart ssh
+  tags:
+    - sshd
+
+
+- name: sshd | Set SSH MaxAuthTries to 4 or Less
+  lineinfile: >
+    dest=/etc/ssh/sshd_config
+    regexp="^MaxAuthTries "
+    line="MaxAuthTries {{ MaxAuthTries }}"
+  notify: restart ssh
+  tags:
+    - sshd
+
+
+- name: sshd | Set SSH IgnoreRhosts to Yes
+  lineinfile: >
+    dest=/etc/ssh/sshd_config
+    regexp="^IgnoreRhosts "
+    line="IgnoreRhosts {{ IgnoreRhosts }}"
+  notify: restart ssh
+  tags:
+    - sshd
+
+
+- name: sshd | Set SSH HostbasedAuthentication to No
+  lineinfile: >
+    dest=/etc/ssh/sshd_config
+    regexp="^HostbasedAuthentication "
+    line="HostbasedAuthentication {{ HostbasedAuthentication }}"
+  notify: restart ssh
+  tags:
+    - sshd
+
+
+- name: sshd | Set SSH PermitEmptyPasswords to No
+  lineinfile: >
+    dest=/etc/ssh/sshd_config
+    regexp="^PermitEmptyPasswords "
+    line="PermitEmptyPasswords {{ PermitEmptyPasswords }}"
+  notify: restart ssh
+  tags:
+    - sshd
+
+
+- name: sshd | Set SSH PasswordAuthentication to No
+  lineinfile: >
+    dest=/etc/ssh/sshd_config
+    regexp="^PasswordAuthentication "
+    line="PasswordAuthentication {{ PasswordAuthentication }}"
+  notify: restart ssh
+  tags:
+    - sshd
+
+
+- name: sshd | Do Not Allow Users to Set Environment Options
+  lineinfile: >
+    dest=/etc/ssh/sshd_config
+    regexp="^PermitUserEnvironment "
+    line="PermitUserEnvironment {{ PermitUserEnvironment }}"
+  notify: restart ssh
+  tags:
+    - sshd
+
+
+- name: sshd | Use Only Approved Cipher in Counter Mode
+  lineinfile: >
+    dest=/etc/ssh/sshd_config
+    regexp="^Ciphers "
+    line="Ciphers aes128-ctr,aes192-ctr,aes256-ctr"
+  notify: restart ssh
+  tags:
+    - sshd
+
+
+- name: sshd | Set Idle Timeout Interval for User Login
+  lineinfile: >
+    dest=/etc/ssh/sshd_config
+    regexp="^ClientAliveInterval "
+    line="ClientAliveInterval {{ ClientAliveInterval }}"
+  notify: restart ssh
+  tags:
+    - sshd
+
+
+- name: sshd | Set Idle Timeout Interval for User Login
+  lineinfile: >
+    dest=/etc/ssh/sshd_config
+    regexp="^ClientAliveCountMax "
+    line="ClientAliveCountMax {{ ClientAliveCountMax }}"
+  notify: restart ssh
+  tags:
+    - sshd
+
+
+- name: sshd | Warning Banner for Standard Login Services
+  file: >
+    name=/etc/issue.net
+    state=absent
+  changed_when: false
+  with_items: 
+    - stats.results
+  when: item.islnk is defined
+  tags:
+    - sshd
+
+
+- name: sshd | Set Warning Banner for Standard Login Services
+  copy: >
+    src={{ item }}
+    dest=/etc/{{ item }}
+  with_items:
+    - issue.net
+  tags:
+    - sshd
+
+
+- name: sshd | Set Warning Banner for Standard Login Services
+  file: >
+    path=/etc/{{ item }}
+    owner=root
+    group=root
+    mode=0644
+  with_items:
+    - issue.net
+  tags:
+    - sshd
+
+
+- name: sshd | Set SSH Banner
+  lineinfile: >
+    dest=/etc/ssh/sshd_config
+    regexp="^Banner "
+    line="Banner /etc/issue.net"
+  notify: restart ssh
+  tags:
+    - sshd
